@@ -1,0 +1,1 @@
+add_application(bubbleSort bubbleSort.c)

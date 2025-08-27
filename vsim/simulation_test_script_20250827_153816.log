@@ -1,0 +1,34 @@
+Reading pref.tcl
+
+# 2020.1
+
+# vsim -c -quiet tb -L pulpino_lib -L adv_dbg_if_lib -L apb_event_unit_lib -L apb_fll_if_lib -L apb_gpio_lib -L apb_i2c_lib -L apb_node_lib -L apb_pulpino_lib -L apb_spi_master_lib -L apb_timer_lib -L apb_uart_lib -L apb_uart_sv_lib -L apb2per_lib -L axi_mem_if_DP_lib -L axi_node_lib -L axi_slice_dc_lib -L axi_slice_lib -L axi_spi_master_lib -L axi_spi_slave_lib -L axi2apb_lib -L core2axi_lib -L fpu_lib -L riscv_lib -L zero_riscy_lib "+nowarnTRAN" "+nowarnTSCALE" "+nowarnTFMPC" "+MEMLOAD=PRELOAD" -t ps -voptargs="+acc -suppress 2103" -do "run 2ms; quit" -GTEST=test_script -gRISCY_RV32F=0 -gZERO_RV32E=0 -gZERO_RV32M=0 -gUSE_ZERO_RISCY=0 
+# Start time: 15:38:17 on Aug 27,2025
+# ** Warning: (vsim-8311) System Verilog assertions are supported only in Questasim.
+# ** Warning: Design size of 20493 statements exceeds ModelSim-Intel FPGA Starter Edition recommended capacity.
+# Expect performance to be adversely affected.
+# run 2ms
+# ** Warning: NUMERIC_STD."=": metavalue detected, returning FALSE
+#    Time: 0 ps  Iteration: 0  Instance: /tb/top_i/peripherals_i/apb_uart_i/UART_RXFF
+# ** Warning: NUMERIC_STD."=": metavalue detected, returning FALSE
+#    Time: 0 ps  Iteration: 0  Instance: /tb/top_i/peripherals_i/apb_uart_i/UART_TXFF
+# Using MEMLOAD method: PRELOAD
+# Using      ri5cy core
+# [SPI] Enabling QPI mode
+# [adv_dbg_if] AXI4 WRITE         32 burst @1a107008 for           4 bytes.
+# Preloading memory
+# Preloading instruction memory from slm_files/l2_stim.slm
+# Preloading data memory from slm_files/tcdm_bank0.slm
+# [TRACER] Output filename is: trace_core_00_0.log
+# RX string: Testing automation scripts!                                                                                                                                                                                                                                     
+# RX string: Calculation: 42 + 8 = 50                                                                                                                                                                                                                                        
+# RX string: Script test completed successfully!                                                                                                                                                                                                                             
+# [SPI] Received 00000000
+# [SPI] Test OK
+# ** Note: $stop    : /home/rohan/major_project/pulpino_workspace/pulpino/vsim/..//tb/tb.sv(379)
+#    Time: 1182080 ns  Iteration: 0  Instance: /tb
+# Break in Module tb at /home/rohan/major_project/pulpino_workspace/pulpino/vsim/..//tb/tb.sv line 379
+# Stopped at /home/rohan/major_project/pulpino_workspace/pulpino/vsim/..//tb/tb.sv line 379
+#  quit
+# End time: 15:39:22 on Aug 27,2025, Elapsed time: 0:01:05
+# Errors: 0, Warnings: 4
