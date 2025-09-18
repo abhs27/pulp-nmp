@@ -1,0 +1,186 @@
+m255
+K4
+z2
+!s11f vlog 2020.1 2020.02, Feb 28 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 d/home/rohan/major_project/pulpino_workspace/pulpino/rtl/nmp_duplicate
+vnmp_addr_gen
+Z1 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
+Z2 !s110 1758185267
+!i10b 1
+!s100 hcVm[JUXk_DUbec:85T<[1
+Z3 !s11b Dg1SIo80bB@j0V0VzS_@n1
+IUR<<zEemfLhhT:?e]9lOo3
+Z4 VDg1SIo80bB@j0V0VzS_@n1
+S1
+R0
+w1758184135
+8rtl_nmp/nmp_addr_gen.sv
+Frtl_nmp/nmp_addr_gen.sv
+!i122 0
+L0 7 36
+Z5 OV;L;2020.1;71
+r1
+!s85 0
+31
+Z6 !s108 1758185267.000000
+Z7 !s107 rtl_nmp/nmp_top.sv|rtl_nmp/nmp_fsm.sv|rtl_nmp/nmp_decoder.sv|rtl_nmp/nmp_axi_master.sv|rtl_nmp/nmp_alu.sv|rtl_nmp/nmp_addr_gen.sv|
+Z8 !s90 -sv|-work|work|rtl_nmp/nmp_addr_gen.sv|rtl_nmp/nmp_alu.sv|rtl_nmp/nmp_axi_master.sv|rtl_nmp/nmp_decoder.sv|rtl_nmp/nmp_fsm.sv|rtl_nmp/nmp_top.sv|
+!i113 1
+Z9 o-sv -work work
+Z10 tCvgOpt 0
+vnmp_alu
+R1
+R2
+!i10b 1
+!s100 5Y23QdkjYg]OzF4=WCT5>1
+R3
+I<JYTEjSf=6lQ2H@IX4J8N1
+R4
+S1
+R0
+w1758120249
+8rtl_nmp/nmp_alu.sv
+Frtl_nmp/nmp_alu.sv
+!i122 0
+L0 7 40
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 1
+R9
+R10
+vnmp_axi_master
+R1
+R2
+!i10b 1
+!s100 KeL;=3Pjb6[N7Z2OhlUai0
+R3
+IIWKMX3_]dPKlA`2FJdD]`1
+R4
+S1
+R0
+w1758183678
+8rtl_nmp/nmp_axi_master.sv
+Frtl_nmp/nmp_axi_master.sv
+!i122 0
+L0 7 257
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 1
+R9
+R10
+vnmp_decoder
+R1
+R2
+!i10b 1
+!s100 e_dl9DM9Gla<iaaE;o:j?0
+R3
+I>93oD4j4E=ezQ=bhiB:2L3
+R4
+S1
+R0
+w1758119898
+8rtl_nmp/nmp_decoder.sv
+Frtl_nmp/nmp_decoder.sv
+!i122 0
+L0 7 31
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 1
+R9
+R10
+vnmp_fsm
+R1
+R2
+!i10b 1
+!s100 U9_EJMckLzTeAl6KGi<MT2
+R3
+IFLk3hASlcYi[PBD3EjBCL2
+R4
+S1
+R0
+w1758184148
+8rtl_nmp/nmp_fsm.sv
+Frtl_nmp/nmp_fsm.sv
+!i122 0
+L0 7 152
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 1
+R9
+R10
+vnmp_proof
+R1
+R2
+!i10b 1
+!s100 Y1mBfBZZX_H299`B0IkUT0
+R3
+Iod]119`[f<:hM?eEWBbjW1
+R4
+S1
+R0
+w1758182357
+8tests_nmp/nmp_proof.sv
+Ftests_nmp/nmp_proof.sv
+!i122 1
+L0 3 161
+R5
+r1
+!s85 0
+31
+R6
+!s107 tests_nmp/nmp_proof.sv|
+!s90 -sv|-work|work|tests_nmp/nmp_proof.sv|
+!i113 1
+R9
+R10
+vnmp_top
+R1
+R2
+!i10b 1
+!s100 _;NcR145NoFkN^4ljBS=C1
+R3
+IUcMDO>mj^7MZRn6EPnz?52
+R4
+S1
+R0
+w1758185261
+8rtl_nmp/nmp_top.sv
+Frtl_nmp/nmp_top.sv
+!i122 0
+L0 7 281
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 1
+R9
+R10
