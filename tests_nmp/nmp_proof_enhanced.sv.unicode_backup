@@ -1,0 +1,305 @@
+`timescale 1ns/1ps
+
+module nmp_proof;
+    reg clk = 0;
+    reg rst_n;
+    reg [31:0] instruction;
+    reg instruction_valid;
+    wire inter_flag;
+
+    // No of elements in the array can be a maximum of 128 as of now
+    parameter size = 8;
+    
+    // Captured outputs
+    reg [31:0] output_data[0:size-1];
+    reg [31:0] output_addr[0:size-1];
+    integer idx = 0;
+    integer no_cycles = 0;
+    
+    // Performance Monitoring Variables
+    integer instruction_count = 0;
+    integer memory_read_count = 0;
+    integer memory_write_count = 0;
+    integer idle_cycles = 0;
+    integer active_cycles = 0;
+    integer alu_operations = 0;
+    integer axi_transactions = 0;
+    integer state_transitions = 0;
+    
+    // Timing tracking
+    real start_time = 0;
+    real end_time = 0;
+    integer execution_cycles = 0;
+    integer total_operations = 0;
+    
+    // Performance calculation variables
+    real ipc = 0.0;
+    real throughput_ops_per_cycle = 0.0;
+    real memory_bandwidth_utilization = 0.0;
+    real execution_efficiency = 0.0;
+    real average_cycles_per_operation = 0.0;
+    
+    // State tracking for performance
+    reg prev_nmp_active = 0;
+    reg execution_started = 0;
+    reg [2:0] prev_fsm_state = 0;
+    
+    // Timeout flag
+    reg timeout_flag = 0;
+
+    // Custom test arrays
+    reg [31:0] rs1_vals[0:size-1] = '{32'h01, 32'h03, 32'h05, 32'h07, 32'h09, 32'h0B, 32'h0D, 32'h0F};
+    reg [31:0] rs2_vals[0:size-1] = '{32'h10, 32'h11, 32'h12, 32'h13, 32'h14, 32'h15, 32'h16, 32'h17};
+    
+    nmp_top dut(
+        .clk(clk), .rst_n(rst_n),
+        .instruction(instruction),
+        .instruction_valid(instruction_valid),
+        .nmp_active(), .inter_flag(inter_flag),
+        .error_flag(), .error_code(),
+        
+        // Port A 
+        .axia_araddr(), .axia_arvalid(),
+        .axia_arready(1'b1),
+        .axia_rdata(dut.current_state == 1 ? (
+            dut.addr_load_counter == 0 ? 32'h00105000 :
+            dut.addr_load_counter == 1 ? 32'h00106000 :
+            dut.addr_load_counter == 2 ? 32'h00107000 : 32'h0
+        ) : rs1_vals[dut.element_counter]),
+        .axia_rresp(2'b00), .axia_rvalid(1'b1), .axia_rready(),
+        
+        // Port B
+        .axib_araddr(), .axib_arvalid(),
+        .axib_arready(1'b1),
+        .axib_rdata(rs2_vals[dut.element_counter]),
+        .axib_rresp(2'b00), .axib_rvalid(1'b1), .axib_rready(),
+        
+        // Port C
+        .axic_awaddr(), .axic_awvalid(),
+        .axic_awready(1'b1),
+        .axic_wdata(), .axic_wvalid(),
+        .axic_wready(1'b1),
+        .axic_bresp(2'b00), .axic_bvalid(1'b1), .axic_bready()
+    );
+    
+    always #5 clk = ~clk;
+    
+    // Performance monitoring logic
+    always @(posedge clk) begin
+        // Count total cycles
+        no_cycles = no_cycles + 1;
+        
+        // Track NMP active periods
+        if (dut.nmp_active && !prev_nmp_active) begin
+            // NMP just became active
+            start_time = $time;
+            execution_started = 1;
+            active_cycles = 0;
+        end
+        prev_nmp_active = dut.nmp_active;
+        
+        // Count active vs idle cycles
+        if (dut.nmp_active) begin
+            active_cycles = active_cycles + 1;
+        end else if (execution_started && !inter_flag) begin
+            idle_cycles = idle_cycles + 1;
+        end
+        
+        // Count memory transactions
+        if (dut.axia_arvalid && dut.axia_arready) begin
+            memory_read_count = memory_read_count + 1;
+            axi_transactions = axi_transactions + 1;
+        end
+        if (dut.axib_arvalid && dut.axib_arready) begin
+            memory_read_count = memory_read_count + 1;
+            axi_transactions = axi_transactions + 1;
+        end
+        if (dut.axic_awvalid && dut.axic_awready) begin
+            memory_write_count = memory_write_count + 1;
+            axi_transactions = axi_transactions + 1;
+        end
+        
+        // Count ALU operations (when FSM is in execute phase and both inputs are ready)
+        if (dut.u_fsm.current_state == 3'b011 && dut.u_fsm.rs1_read_done && dut.u_fsm.rs2_read_done) begin
+            alu_operations = alu_operations + 1;
+            total_operations = total_operations + 1;
+        end
+        
+        // Count state transitions
+        if (dut.u_fsm.current_state !== prev_fsm_state) begin
+            state_transitions = state_transitions + 1;
+            prev_fsm_state = dut.u_fsm.current_state;
+        end
+        
+        // Count instructions
+        if (instruction_valid) begin
+            instruction_count = instruction_count + 1;
+        end
+    end
+    
+    // Monitor NMP state changes  
+    reg [2:0] prev_state = 0;
+    always @(posedge clk) begin
+        if (dut.u_fsm.current_state !== prev_state) begin
+            $display("Time %0t: NMP State changed from %0d to %0d", $time, prev_state, dut.u_fsm.current_state);
+            prev_state = dut.u_fsm.current_state;
+        end
+        if (instruction_valid) begin
+            $display("Time %0t: Instruction valid, current_state = %0d", $time, dut.u_fsm.current_state);
+        end
+        if (dut.axic_wvalid && dut.axic_awvalid) begin
+            $display("Time %0t: Writing data 0x%08h to address 0x%08h", $time, dut.axic_wdata, dut.axic_awaddr);
+        end
+    end
+    
+    // Timeout mechanism
+    initial begin
+        #50000; // 50us timeout
+        if (!inter_flag) begin
+            $display("TIMEOUT: inter_flag not received within 50us");
+            timeout_flag = 1;
+        end
+    end
+    
+    // Capture outputs
+    always @(posedge clk) begin
+        if (dut.axic_wvalid && dut.axic_awvalid && idx < size) begin
+            output_addr[idx] = dut.axic_awaddr;
+            output_data[idx] = dut.axic_wdata;
+            idx = idx + 1;
+        end
+    end
+
+    // Performance calculation task
+    task calculate_performance_metrics;
+        begin
+            end_time = $time;
+            execution_cycles = active_cycles;
+            
+            // Calculate IPC (Instructions Per Cycle)
+            if (no_cycles > 0)
+                ipc = (instruction_count * 1.0) / no_cycles;
+            
+            // Calculate throughput (operations per cycle)
+            if (no_cycles > 0)
+                throughput_ops_per_cycle = (total_operations * 1.0) / no_cycles;
+            
+            // Calculate execution efficiency (active cycles / total cycles)
+            if (no_cycles > 0)
+                execution_efficiency = (active_cycles * 100.0) / no_cycles;
+            
+            // Calculate memory bandwidth utilization
+            if (no_cycles > 0)
+                memory_bandwidth_utilization = (axi_transactions * 100.0) / no_cycles;
+            
+            // Calculate average cycles per operation
+            if (total_operations > 0)
+                average_cycles_per_operation = (active_cycles * 1.0) / total_operations;
+        end
+    endtask
+    
+    // Enhanced performance reporting task
+    task display_performance_report;
+        begin
+            $display("\n╔════════════════════════════════════════════════════════════════╗");
+            $display("║                    NMP PERFORMANCE REPORT                     ║");
+            $display("╠════════════════════════════════════════════════════════════════╣");
+            $display("║ TIMING METRICS:                                               ║");
+            $display("║   Total Simulation Cycles    : %10d                     ║", no_cycles);
+            $display("║   Active NMP Cycles          : %10d                     ║", active_cycles);
+            $display("║   Idle Cycles                : %10d                     ║", idle_cycles);
+            $display("║   Execution Time             : %10.2f ns                ║", (end_time - start_time));
+            $display("╠════════════════════════════════════════════════════════════════╣");
+            $display("║ THROUGHPUT METRICS:                                           ║");
+            $display("║   Instructions Per Cycle (IPC)     : %8.4f                ║", ipc);
+            $display("║   Operations Per Cycle              : %8.4f                ║", throughput_ops_per_cycle);
+            $display("║   Average Cycles Per Operation      : %8.2f                ║", average_cycles_per_operation);
+            $display("║   Execution Efficiency              : %8.2f%%               ║", execution_efficiency);
+            $display("╠════════════════════════════════════════════════════════════════╣");
+            $display("║ MEMORY METRICS:                                               ║");
+            $display("║   Total Memory Reads         : %10d                     ║", memory_read_count);
+            $display("║   Total Memory Writes        : %10d                     ║", memory_write_count);
+            $display("║   Total AXI Transactions     : %10d                     ║", axi_transactions);
+            $display("║   Memory Bandwidth Util.     : %8.2f%%                  ║", memory_bandwidth_utilization);
+            $display("╠════════════════════════════════════════════════════════════════╣");
+            $display("║ OPERATION METRICS:                                            ║");
+            $display("║   Total Instructions         : %10d                     ║", instruction_count);
+            $display("║   ALU Operations             : %10d                     ║", alu_operations);
+            $display("║   State Transitions          : %10d                     ║", state_transitions);
+            $display("║   Data Elements Processed    : %10d                     ║", idx);
+            $display("╚════════════════════════════════════════════════════════════════╝\n");
+        end
+    endtask
+    
+    initial begin
+        integer i;
+        
+        $display("\n==== NMP Enhanced Performance Test ====\n");
+        
+        rst_n = 0;
+        instruction = 0;
+        instruction_valid = 0;
+        
+        #20 rst_n = 1;
+        #10;
+        
+        // Send NMP_ADD instruction
+        instruction = {7'b0110000, 5'd8, 5'b00000, 3'b000, 5'b00000, 7'b0110011};
+        instruction_valid = 1;
+        $display("Sending instruction: 0x%08h at time %0t", instruction, $time);
+        #10 instruction_valid = 0;
+        $display("Instruction sent, waiting for response...");
+        $display("DEBUG: is_nmp_add = %b", dut.u_decoder.is_nmp_add);
+        $display("DEBUG: current_state = %0d", dut.u_fsm.current_state);
+        $display("DEBUG: addr_load_counter = %0d", dut.addr_load_counter);
+        
+        // Wait for inter_flag or timeout
+        fork
+            wait(inter_flag);
+            wait(timeout_flag);
+        join_any
+        
+        #20;
+        
+        // Calculate performance metrics
+        calculate_performance_metrics();
+
+        if (inter_flag) begin
+            $display("inter_flag received\n");
+        end else begin
+            $display("TIMEOUT: inter_flag was not received\n");
+        end
+        
+        // Display enhanced performance report
+        display_performance_report();
+        
+        // Show results
+        $display("NMP OUTPUT ARRAYS:");
+        $display("==================");
+        for (i = 0; i < idx; i = i + 1) begin
+            $display("[%0d] Address: 0x%08h, Data: 0x%08h (0x%02h + 0x%02h = 0x%02h)",
+                i, output_addr[i], output_data[i], 
+                rs1_vals[i], rs2_vals[i], output_data[i]);
+        end
+        
+        if (idx > 0) begin
+            $display("\nEXPECTED vs ACTUAL:");
+            $display("===================");
+            for (i = 0; i < idx; i = i + 1) begin
+                automatic reg [31:0] exp = rs1_vals[i] + rs2_vals[i];
+                if (output_data[i] == exp)
+                    $display("[%0d] PASS: Expected=0x%02h, Got=0x%02h", i, exp, output_data[i]);
+                else
+                    $display("[%0d] FAIL: Expected=0x%02h, Got=0x%02h", i, exp, output_data[i]);
+            end
+        end else begin
+            $display("\nNo output data captured - check if NMP unit is working correctly");
+        end
+        
+        $display("\n==================");
+        $display("TEST COMPLETE");
+        $display("==================\n");
+        
+        $finish;
+    end
+endmodule

@@ -1,99 +1,52 @@
-# vsim -c -do "
-#     run -all
-#     quit -sim
-#     exit
-# " work.nmp_proof 
-# Start time: 14:43:05 on Sep 18,2025
+# vsim -c -do "run -all; quit -f" work.tb_final_working 
+# Start time: 23:16:02 on Oct 06,2025
 # Loading sv_std.std
-# Loading work.nmp_proof
-# Loading work.nmp_top
-# Loading work.nmp_decoder
-# Loading work.nmp_fsm
+# Loading work.tb_final_working
+# Loading work.nmp_top_hash
+# Loading work.nmp_decoder_hash
+# Loading work.nmp_fsm_hash
+# Loading work.nmp_address_lookup_table
+# Loading work.nmp_hash_addr_decoder
 # Loading work.nmp_addr_gen
 # Loading work.nmp_alu
 # Loading work.nmp_axi_master
+# run -all
 # 
-#     run -all
-#     quit -sim
-#     exit
+# ========================================
+# === NMP COMPREHENSIVE TEST SUITE ===
+# ========================================
 # 
+# Array Sizes:
+#   ✓        1 element (size=1, cycles=15)
+#   ✓       2 elements (size=2, cycles=24)
+#   ✓       4 elements (size=4, cycles=42)
+#   ✓       8 elements (size=8, cycles=78)
+#   ✓      16 elements (size=16, cycles=150)
+#   ✓      31 elements (size=31, cycles=285)
 # 
-# ==== NMP Output Verification ====
+# Data Patterns:
+#   ✓        All zeros (size=4, cycles=42)
+#   ✓       Small nums (size=4, cycles=42)
+#   ✓       Large nums (size=4, cycles=42)
+#   ✓            Max+1 (size=2, cycles=24)
 # 
-# Time 5000: NMP State changed from 0 to x
-# Time 15000: NMP State changed from x to 0
-# Sending instruction: 0x60800033 at time 30000
-# Time 35000: Instruction valid, current_state = 0
-# Instruction sent, waiting for response...
-# DEBUG: is_nmp_add = 1
-# DEBUG: current_state = 1
-# DEBUG: addr_load_counter = 0
-# Time 45000: NMP State changed from 0 to 1
-# Time 145000: NMP State changed from 1 to 2
-# Time 155000: NMP State changed from 2 to 3
-# Time 195000: NMP State changed from 3 to 4
-# Time 205000: Writing data 0x00000011 to address 0x00107000
-# Time 225000: NMP State changed from 4 to 2
-# Time 235000: NMP State changed from 2 to 3
-# Time 275000: NMP State changed from 3 to 4
-# Time 285000: Writing data 0x00000014 to address 0x00107004
-# Time 305000: NMP State changed from 4 to 2
-# Time 315000: NMP State changed from 2 to 3
-# Time 355000: NMP State changed from 3 to 4
-# Time 365000: Writing data 0x00000017 to address 0x00107008
-# Time 385000: NMP State changed from 4 to 2
-# Time 395000: NMP State changed from 2 to 3
-# Time 435000: NMP State changed from 3 to 4
-# Time 445000: Writing data 0x0000001a to address 0x0010700c
-# Time 465000: NMP State changed from 4 to 2
-# Time 475000: NMP State changed from 2 to 3
-# Time 515000: NMP State changed from 3 to 4
-# Time 525000: Writing data 0x0000001d to address 0x00107010
-# Time 545000: NMP State changed from 4 to 2
-# Time 555000: NMP State changed from 2 to 3
-# Time 595000: NMP State changed from 3 to 4
-# Time 605000: Writing data 0x00000020 to address 0x00107014
-# Time 625000: NMP State changed from 4 to 2
-# Time 635000: NMP State changed from 2 to 3
-# Time 675000: NMP State changed from 3 to 4
-# Time 685000: Writing data 0x00000023 to address 0x00107018
-# Time 705000: NMP State changed from 4 to 2
-# Time 715000: NMP State changed from 2 to 3
-# Time 755000: NMP State changed from 3 to 4
-# Time 765000: Writing data 0x00000026 to address 0x0010701c
-# Time 785000: NMP State changed from 4 to 5
-# Time 795000: NMP State changed from 5 to 0
-# inter_flag received
+# Odd Sizes:
+#   ✓       3 elements (size=3, cycles=33)
+#   ✓       5 elements (size=5, cycles=51)
+#   ✓       7 elements (size=7, cycles=69)
+#   ✓      15 elements (size=15, cycles=141)
 # 
-# Total cycles : 80 
+# ========================================
+# RESULTS:
+#   Total:  14 tests
+#   Passed: 14
+#   Failed: 0
+#   Rate:   100%
+# ========================================
 # 
-# NMP OUTPUT ARRAYS:
-# ==================
-# [0] Address: 0x00107000, Data: 0x00000011 (0x01 + 0x10 = 0x11)
-# [1] Address: 0x00107004, Data: 0x00000014 (0x03 + 0x11 = 0x14)
-# [2] Address: 0x00107008, Data: 0x00000017 (0x05 + 0x12 = 0x17)
-# [3] Address: 0x0010700c, Data: 0x0000001a (0x07 + 0x13 = 0x1a)
-# [4] Address: 0x00107010, Data: 0x0000001d (0x09 + 0x14 = 0x1d)
-# [5] Address: 0x00107014, Data: 0x00000020 (0x0b + 0x15 = 0x20)
-# [6] Address: 0x00107018, Data: 0x00000023 (0x0d + 0x16 = 0x23)
-# [7] Address: 0x0010701c, Data: 0x00000026 (0x0f + 0x17 = 0x26)
+# 🎉 ALL TESTS PASSED! System fully verified.
 # 
-# EXPECTED vs ACTUAL:
-# ===================
-# [0] PASS: Expected=0x11, Got=0x11
-# [1] PASS: Expected=0x14, Got=0x14
-# [2] PASS: Expected=0x17, Got=0x17
-# [3] PASS: Expected=0x1a, Got=0x1a
-# [4] PASS: Expected=0x1d, Got=0x1d
-# [5] PASS: Expected=0x20, Got=0x20
-# [6] PASS: Expected=0x23, Got=0x23
-# [7] PASS: Expected=0x26, Got=0x26
-# 
-# ==================
-# TEST COMPLETE
-# ==================
-# 
-# ** Note: $finish    : tests_nmp/nmp_proof.sv(161)
-#    Time: 805 ns  Iteration: 0  Instance: /nmp_proof
-# End time: 14:43:07 on Sep 18,2025, Elapsed time: 0:00:02
+# ** Note: $finish    : tests_nmp/tb_final_working.sv(240)
+#    Time: 12825 ns  Iteration: 1  Instance: /tb_final_working
+# End time: 23:16:04 on Oct 06,2025, Elapsed time: 0:00:02
 # Errors: 0, Warnings: 0

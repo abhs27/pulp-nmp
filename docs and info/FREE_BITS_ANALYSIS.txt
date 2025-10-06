@@ -1,0 +1,209 @@
+╔══════════════════════════════════════════════════════════════════════════╗
+║            NMP INSTRUCTION FORMAT - FREE BITS ANALYSIS                   ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+After migrating to opcode 0x6b with funct3-based operation selection
+
+═══════════════════════════════════════════════════════════════════════════
+CURRENT INSTRUCTION FORMAT (32 bits)
+═══════════════════════════════════════════════════════════════════════════
+
+Bit Position:  31                                                    0
+              ┌────────┬─────────┬─────────┬────────┬────────┬────────┐
+Field:        │ funct7 │   rs2   │   rs1   │ funct3 │   rd   │ opcode │
+              │ [31:25]│ [24:20] │ [19:15] │[14:12] │ [11:7] │  [6:0] │
+Width:        │ 7 bits │  5 bits │  5 bits │ 3 bits │ 5 bits │ 7 bits │
+              ├────────┼─────────┼─────────┼────────┼────────┼────────┤
+Status:       │  FREE  │  USED   │  FREE   │  USED  │  FREE  │  USED  │
+              ├────────┼─────────┼─────────┼────────┼────────┼────────┤
+Current Use:  │ 0x00   │  size   │  0x00   │ optype │  0x00  │  0x6b  │
+              │(unused)│ (0-31)  │(unused) │(ADD=0) │(unused)│  NMP   │
+              └────────┴─────────┴─────────┴────────┴────────┴────────┘
+
+═══════════════════════════════════════════════════════════════════════════
+BITS BREAKDOWN - USED vs FREE
+═══════════════════════════════════════════════════════════════════════════
+
+✅ USED BITS (12 bits total):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. opcode [6:0] = 7 bits ✓ USED
+   Value: 1101011 (0x6b)
+   Purpose: Identifies instruction as NMP operation
+   Status: LOCKED (must be 0x6b for NMP)
+
+2. funct3 [14:12] = 3 bits ✓ USED
+   Current: 000 (NMP_ADD)
+   Purpose: Selects which NMP operation
+   Available values:
+     000 = NMP_ADD ← Currently implemented
+     001 = NMP_SUB ← Available for future
+     010 = NMP_MUL ← Available for future
+     011 = NMP_DIV ← Available for future
+     100 = NMP_AND ← Available for future
+     101 = NMP_OR  ← Available for future
+     110 = NMP_XOR ← Available for future
+     111 = Reserved ← Available for future
+   
+   Note: 7 out of 8 values still available!
+
+3. rs2 [24:20] = 5 bits ✓ USED
+   Value: size (0-31)
+   Purpose: Array size / element count
+   Status: FULLY USED for array size
+   Range: Can specify 0 to 31 elements
+
+═══════════════════════════════════════════════════════════════════════════
+
+🆓 FREE BITS (17 bits total available!):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. funct7 [31:25] = 7 bits ✗ CURRENTLY FREE
+   Current value: 0000000
+   Potential uses:
+     • Extended instruction variants (128 possibilities)
+     • Data type selection (int8/int16/int32/float)
+     • Memory access modes (sequential/strided/indexed)
+     • Precision control
+     • Rounding modes
+     • SIMD lane selection
+     • Operation modifiers (saturating/wrapping arithmetic)
+
+2. rs1 [19:15] = 5 bits ✗ CURRENTLY FREE
+   Current value: 00000
+   Potential uses:
+     • Source register index
+     • Configuration flags (32 combinations)
+     • Stride value for strided memory access
+     • Data type selector (3 bits = 8 types)
+     • Conditional execution flags
+     • Alignment hints
+     • Cache control hints
+
+3. rd [11:7] = 5 bits ✗ CURRENTLY FREE
+   Current value: 00000
+   Potential uses:
+     • Destination register index
+     • Output configuration flags (32 combinations)
+     • Result mode selector
+     • Accumulator selection
+     • Status flag control
+     • Write-back control
+     • Output data type
+
+═══════════════════════════════════════════════════════════════════════════
+SUMMARY TABLE
+═══════════════════════════════════════════════════════════════════════════
+
+┌──────────┬─────────┬──────────┬──────────┬────────────────────────────┐
+│ Field    │ Bits    │  Width   │  Status  │ Current/Potential Use      │
+├──────────┼─────────┼──────────┼──────────┼────────────────────────────┤
+│ opcode   │ [6:0]   │  7 bits  │   USED   │ 0x6b (NMP identifier)      │
+│ rd       │ [11:7]  │  5 bits  │ **FREE** │ Available for expansion    │
+│ funct3   │ [14:12] │  3 bits  │   USED   │ Operation type (7 avail)   │
+│ rs1      │ [19:15] │  5 bits  │ **FREE** │ Available for expansion    │
+│ rs2      │ [24:20] │  5 bits  │   USED   │ Array size (0-31)          │
+│ funct7   │ [31:25] │  7 bits  │ **FREE** │ Available for expansion    │
+├──────────┴─────────┴──────────┴──────────┴────────────────────────────┤
+│ Total:   32 bits   │  15 USED │  17 FREE │ 53% encoding space free!   │
+└────────────────────┴──────────┴──────────┴────────────────────────────┘
+
+═══════════════════════════════════════════════════════════════════════════
+ENCODING CAPACITY
+═══════════════════════════════════════════════════════════════════════════
+
+With current encoding, you can support:
+
+1. Operations (via funct3): 8 different operations
+   - Currently using: 1 (ADD)
+   - Available: 7 more operations
+
+2. Extended Variants (via funct7): 128 variants per operation
+   - Total possible instructions: 8 × 128 = 1,024 different NMP instructions!
+
+3. Configuration Space (via rs1 + rd): 32 × 32 = 1,024 configurations
+   - Can specify source/destination registers
+   - Can add flags, modes, data types, etc.
+
+4. Array Sizes (via rs2): 32 different sizes (0-31 elements)
+   - Currently fully utilized
+
+═══════════════════════════════════════════════════════════════════════════
+EXAMPLE FUTURE INSTRUCTION ENCODINGS
+═══════════════════════════════════════════════════════════════════════════
+
+Example 1: NMP_ADD with saturation mode
+  {7'b0000001, size, 5'b00000, 3'b000, 5'b00001, 7'b1101011}
+   ^funct7=1           ^f3=ADD          ^rd=sat   ^NMP
+
+Example 2: NMP_SUB with stride=2
+  {7'b0000000, size, 5'b00010, 3'b001, 5'b00000, 7'b1101011}
+                     ^rs1=stride ^f3=SUB         ^NMP
+
+Example 3: NMP_MUL with int16 data type
+  {7'b0000010, size, 5'b00001, 3'b010, 5'b00000, 7'b1101011}
+   ^f7=int16          ^rs1=cfg  ^f3=MUL         ^NMP
+
+Example 4: NMP_DIV writing to register x5
+  {7'b0000000, size, 5'b00000, 3'b011, 5'b00101, 7'b1101011}
+                                ^f3=DIV ^rd=x5   ^NMP
+
+═══════════════════════════════════════════════════════════════════════════
+RECOMMENDED USAGE STRATEGY
+═══════════════════════════════════════════════════════════════════════════
+
+Phase 1 (Current): Basic Operations
+  - Use funct3 for: ADD, SUB, MUL, DIV, AND, OR, XOR
+  - Keep rs1, rd, funct7 as zeros
+  - Focus on getting basic array operations working
+
+Phase 2: Data Types & Modes
+  - Use rs1[2:0] for data type selection:
+    000 = int32 (default)
+    001 = int16
+    010 = int8
+    011 = float32
+    etc.
+  - Use rd[0] for saturation mode (0=wrap, 1=saturate)
+  - Use funct7[0] for signed/unsigned mode
+
+Phase 3: Advanced Features
+  - Use rs1[4:3] for memory stride
+  - Use rd[4:1] for destination register
+  - Use funct7[6:1] for extended configurations
+
+Phase 4: Custom Operations
+  - Use funct3=111 for custom/extended operations
+  - Use funct7 to specify custom operation type
+
+═══════════════════════════════════════════════════════════════════════════
+COMPARISON: OLD vs NEW
+═══════════════════════════════════════════════════════════════════════════
+
+OLD Encoding (0x33 opcode):
+  FREE: 10 bits (rs1=5, rd=5)
+  USED: 22 bits (opcode=7, funct3=3, funct7=7, rs2=5)
+  Limitation: funct7 consumed for NMP identification
+
+NEW Encoding (0x6b opcode):
+  FREE: 17 bits (rs1=5, rd=5, funct7=7)
+  USED: 15 bits (opcode=7, funct3=3, rs2=5)
+  Advantage: funct7 now available for extensions!
+
+Improvement: 70% MORE free encoding space! (17 vs 10 bits)
+
+═══════════════════════════════════════════════════════════════════════════
+QUICK REFERENCE - FREE BITS
+═══════════════════════════════════════════════════════════════════════════
+
+FREE:   [31:25] funct7  (7 bits) - Extended config space
+FREE:   [19:15] rs1     (5 bits) - Source flags/config  
+FREE:   [11:7]  rd      (5 bits) - Destination flags/config
+
+USED:   [24:20] rs2     (5 bits) - Array size
+USED:   [14:12] funct3  (3 bits) - Operation type (7 slots available)
+USED:   [6:0]   opcode  (7 bits) - Must be 0x6b
+
+TOTAL FREE: 17 bits = 131,072 possible configuration combinations!
+
+═══════════════════════════════════════════════════════════════════════════

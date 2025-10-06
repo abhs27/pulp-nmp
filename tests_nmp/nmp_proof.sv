@@ -8,7 +8,7 @@ module nmp_proof;
     wire inter_flag;
 
     // No of elements in the array can be a maximum of 128 as of now
-    parameter size = 8;
+    parameter size = 12;
     
     // Captured outputs
     reg [31:0] output_data[0:size-1];
@@ -20,8 +20,8 @@ module nmp_proof;
     reg timeout_flag = 0;
 
     // Custom test arrays
-    reg [31:0] rs1_vals[0:size-1] = '{32'h01, 32'h03, 32'h05, 32'h07, 32'h09, 32'h0B, 32'h0D, 32'h0F};
-    reg [31:0] rs2_vals[0:size-1] = '{32'h10, 32'h11, 32'h12, 32'h13, 32'h14, 32'h15, 32'h16, 32'h17};
+reg [31:0] rs1_vals[0:size-1] = '{32'h01, 32'h03, 32'h05, 32'h07, 32'h09, 32'h0B, 32'h0D, 32'h0F, 32'h11, 32'h12, 32'h13, 32'h14};
+    reg [31:0] rs2_vals[0:size-1] = '{32'h10, 32'h11, 32'h12, 32'h13, 32'h14, 32'h15, 32'h16, 32'h17, 32'h21, 32'h22, 32'h23, 32'h24};
     
     nmp_top dut(
         .clk(clk), .rst_n(rst_n),
@@ -106,7 +106,7 @@ module nmp_proof;
         #10;
         
         // Send NMP_ADD instruction
-        instruction = {7'b0110000, 5'd8, 5'b00000, 3'b000, 5'b00000, 7'b0110011};
+        instruction = {7'b0110000, size[4:0], 5'b00000, 3'b000, 5'b00000, 7'b0110011};
         instruction_valid = 1;
         $display("Sending instruction: 0x%08h at time %0t", instruction, $time);
         #10 instruction_valid = 0;

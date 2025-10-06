@@ -1,0 +1,22 @@
+===============================================
+NMP Simulation Summary
+===============================================
+Timestamp: Mon Sep 22 15:31:31 IST 2025
+Simulation ID: 20250922_153128
+Directory: simulation/sim_20250922_153128
+
+Files Generated:
+- simulation_output_20250922_153128.log (Complete simulation log)
+- nmp_performance.log (Performance metrics)
+- nmp_enhanced_20250922_153128.vcd (Waveform file)
+- transcript (ModelSim transcript)
+- simulation_summary.txt (This file)
+
+Testbench Used: Enhanced (nmp_proof_enhanced.sv)
+VCD Generation: Enabled
+
+Commands to analyze results:
+- View waveforms: gtkwave simulation/sim_20250922_153128/nmp_enhanced_20250922_153128.vcd
+- View performance: cat simulation/sim_20250922_153128/nmp_performance.log
+- View full log: cat simulation/sim_20250922_153128/simulation_output_20250922_153128.log
+===============================================

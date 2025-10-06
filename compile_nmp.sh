@@ -44,6 +44,10 @@ echo "Compilation successful!"
 echo ""
 
 # Run simulation
+
+echo "Starting simulation with performance monitoring..."
+echo "Performance metrics will include: Total Cycles, IPC, Throughput"
+echo ""
 echo "Starting simulation..."
 $VSIM_PATH -c -do "
     run -all

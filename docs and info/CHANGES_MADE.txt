@@ -1,0 +1,101 @@
+═══════════════════════════════════════════════════════════════════════════
+                    NMP OPCODE MIGRATION - CHANGES MADE
+═══════════════════════════════════════════════════════════════════════════
+
+Date: October 6, 2025
+Migration: From R-type opcode (0x33) to dedicated NMP opcode (0x6b)
+
+═══════════════════════════════════════════════════════════════════════════
+BACKUPS CREATED
+═══════════════════════════════════════════════════════════════════════════
+
+✓ rtl_nmp/nmp_decoder.sv.backup
+✓ tests_nmp/nmp_proof_enhanced.sv.backup
+
+═══════════════════════════════════════════════════════════════════════════
+FILE 1: rtl_nmp/nmp_decoder.sv
+═══════════════════════════════════════════════════════════════════════════
+
+CHANGES:
+--------
+1. Changed opcode constant:
+   OLD: localparam [6:0] OPCODE_RTYPE = 7'b0110011;  // 0x33
+   NEW: localparam [6:0] OPCODE_NMP   = 7'b1101011;  // 0x6b
+
+2. Removed funct7 constant (no longer needed):
+   REMOVED: localparam [6:0] FUNCT7_NMP_ADD = 7'b0110000;
+
+3. Added future operation constants:
+   ADDED: localparam [2:0] FUNCT3_NMP_SUB = 3'b001;  // Future
+   ADDED: localparam [2:0] FUNCT3_NMP_MUL = 3'b010;  // Future
+   ADDED: localparam [2:0] FUNCT3_NMP_DIV = 3'b011;  // Future
+
+4. Simplified decode logic:
+   OLD: assign is_nmp_add = instruction_valid && 
+                           (opcode == OPCODE_RTYPE) && 
+                           (funct3 == FUNCT3_NMP_ADD) && 
+                           (funct7 == FUNCT7_NMP_ADD);
+   
+   NEW: assign is_nmp_add = instruction_valid && 
+                           (opcode == OPCODE_NMP) && 
+                           (funct3 == FUNCT3_NMP_ADD);
+
+IMPACT:
+-------
+- Cleaner: No need to check funct7 anymore
+- Dedicated: Uses PULPino's designated NMP opcode
+- Extensible: Ready for 8 operations via funct3
+
+═══════════════════════════════════════════════════════════════════════════
+FILE 2: tests_nmp/nmp_proof_enhanced.sv (Line 247)
+═══════════════════════════════════════════════════════════════════════════
+
+CHANGE:
+-------
+OLD instruction format:
+  instruction = {7'b0110000, size[4:0], 5'b00000, 3'b000, 5'b00000, 7'b0110011};
+                 ^funct7=0x30             ^f3=ADD           ^opcode=0x33
+
+NEW instruction format:
+  instruction = {7'b0000000, size[4:0], 5'b00000, 3'b000, 5'b00000, 7'b1101011};
+                 ^funct7=0   ^size      ^unused  ^f3=ADD ^unused  ^opcode=0x6b
+
+BREAKDOWN:
+----------
+Bit [31:25] = 0000000  (funct7 - now free for future config)
+Bit [24:20] = size     (array size 0-31)
+Bit [19:15] = 00000    (rs1 - free for future flags)
+Bit [14:12] = 000      (funct3 = NMP_ADD)
+Bit [11:7]  = 00000    (rd - free for future flags)
+Bit [6:0]   = 1101011  (opcode = 0x6b = NMP_OP)
+
+═══════════════════════════════════════════════════════════════════════════
+INSTRUCTION ENCODING COMPARISON
+═══════════════════════════════════════════════════════════════════════════
+
+For size = 20 (decimal):
+
+OLD (0x33 opcode):
+  Instruction = 0x30A00033
+  Binary = 0011_0000_1010_0000_0000_0000_0011_0011
+           funct7=0x30 sz=20  rs1=0 f3=0 rd=0 op=0x33
+
+NEW (0x6b opcode):
+  Instruction = 0x00A0006B
+  Binary = 0000_0000_1010_0000_0000_0000_0110_1011
+           funct7=0x00 sz=20  rs1=0 f3=0 rd=0 op=0x6b
+
+═══════════════════════════════════════════════════════════════════════════
+TESTING
+═══════════════════════════════════════════════════════════════════════════
+
+To run the test:
+  ./compile_nmp_enhanced.sh
+
+Expected behavior:
+  - Decoder should recognize instruction with opcode 0x6b
+  - is_nmp_add should be asserted
+  - Array operations should proceed normally
+  - All 20 elements should be processed correctly
+
+═══════════════════════════════════════════════════════════════════════════

@@ -1,0 +1,75 @@
+═══════════════════════════════════════════════════════════════════════════
+                    PULPINO OPCODE USAGE MAP
+═══════════════════════════════════════════════════════════════════════════
+
+Source: /pulpino/ips/riscv/include/riscv_defines.sv
+
+┌────────┬──────────────┬──────────────┬─────────────────────────────────┐
+│ Opcode │    Binary    │    Name      │         Description             │
+├────────┼──────────────┼──────────────┼─────────────────────────────────┤
+│  0x03  │  0000011     │  LOAD        │  Load instructions              │
+│  0x07  │  0000111     │  LOAD_FP     │  Floating-point load            │
+│  0x0b  │  0001011     │  LOAD_POST   │  PULP post-increment load       │
+│  0x0f  │  0001111     │  FENCE       │  Memory fence                   │
+├────────┼──────────────┼──────────────┼─────────────────────────────────┤
+│  0x13  │  0010011     │  OP-IMM      │  Integer immediate operations   │
+│  0x17  │  0010111     │  AUIPC       │  Add upper immediate to PC      │
+│  0x1b  │  0011011     │  *** FREE *** (RV64I-specific)                 │
+│  0x1f  │  0011111     │  *** FREE ***                                  │
+├────────┼──────────────┼──────────────┼─────────────────────────────────┤
+│  0x23  │  0100011     │  STORE       │  Store instructions             │
+│  0x27  │  0100111     │  STORE_FP    │  Floating-point store           │
+│  0x2b  │  0101011     │  STORE_POST  │  PULP post-increment store      │
+│  0x2f  │  0101111     │  *** FREE *** (RISC-V Atomic reserved)         │
+├────────┼──────────────┼──────────────┼─────────────────────────────────┤
+│  0x33  │  0110011     │  OP          │  Integer register operations    │
+│  0x37  │  0110111     │  LUI         │  Load upper immediate           │
+│  0x3b  │  0111011     │  *** FREE *** (RV64I-specific)                 │
+│  0x3f  │  0111111     │  *** FREE ***                                  │
+├────────┼──────────────┼──────────────┼─────────────────────────────────┤
+│  0x43  │  1000011     │  MADD        │  Fused multiply-add             │
+│  0x47  │  1000111     │  MSUB        │  Fused multiply-subtract        │
+│  0x4b  │  1001011     │  NMSUB       │  Fused negative multiply-sub    │
+│  0x4f  │  1001111     │  NMADD       │  Fused negative multiply-add    │
+├────────┼──────────────┼──────────────┼─────────────────────────────────┤
+│  0x53  │  1010011     │  OP-FP       │  Floating-point operations      │
+│  0x57  │  1010111     │  VECOP       │  PULP vector operations         │
+│  0x5b  │  1011011     │  PULP_OP     │  PULP custom operations         │
+│  0x5f  │  1011111     │  *** FREE ***                                  │
+├────────┼──────────────┼──────────────┼─────────────────────────────────┤
+│  0x63  │  1100011     │  BRANCH      │  Branch instructions            │
+│  0x67  │  1100111     │  JALR        │  Jump and link register         │
+│  0x6b  │  1101011     │  NMP_OP      │  Near-Memory Processing ← YOU!  │
+│  0x6f  │  1101111     │  JAL         │  Jump and link                  │
+├────────┼──────────────┼──────────────┼─────────────────────────────────┤
+│  0x73  │  1110011     │  SYSTEM      │  System instructions            │
+│  0x7b  │  1111011     │  HWLOOP      │  PULP hardware loop             │
+│  0x7f  │  1111111     │  *** FREE *** (Reserved)                       │
+└────────┴──────────────┴──────────────┴─────────────────────────────────┘
+
+═══════════════════════════════════════════════════════════════════════════
+
+KEY FINDINGS:
+
+1. NMP_OP (0x6b) is ALREADY DEFINED in PULPino!
+   - Located at: /pulpino/ips/riscv/include/riscv_defines.sv line 68
+   - Binary: 1101011
+   - Status: Defined but not yet used in decoder
+   
+2. FREE Opcodes (if you ever need more):
+   - 0x1b (0011011) - RV64I specific
+   - 0x1f (0011111) - Completely free
+   - 0x2f (0101111) - Reserved for Atomics in RISC-V
+   - 0x3b (0111011) - RV64I specific  
+   - 0x3f (0111111) - Completely free
+   - 0x5f (1011111) - Completely free
+   - 0x7f (1111111) - Reserved
+
+3. RECOMMENDATION:
+   Use 0x6b (NMP_OP) as it's:
+   ✓ Already defined for NMP
+   ✓ In custom instruction space
+   ✓ No conflicts
+   ✓ Perfect for your use case!
+
+═══════════════════════════════════════════════════════════════════════════
