@@ -10,7 +10,7 @@ cModel Technology
 Z0 d/home/rohan/major_project/pulpino_workspace/pulpino/rtl/nmp_working
 vnmp_addr_gen
 Z1 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
-Z2 !s110 1759772761
+Z2 !s110 1759900204
 !i10b 1
 !s100 hcVm[JUXk_DUbec:85T<[1
 Z3 !s11b Dg1SIo80bB@j0V0VzS_@n1
@@ -21,13 +21,13 @@ R0
 w1758184135
 8rtl_nmp/nmp_addr_gen.sv
 Frtl_nmp/nmp_addr_gen.sv
-!i122 15
+!i122 28
 L0 7 36
 Z5 OV;L;2020.1;71
 r1
 !s85 0
 31
-Z6 !s108 1759772761.000000
+Z6 !s108 1759900204.000000
 Z7 !s107 rtl_nmp/nmp_top_hash.sv|rtl_nmp/nmp_hash_generator.sv|rtl_nmp/nmp_hash_addr_decoder.sv|rtl_nmp/nmp_fsm_hash.sv|rtl_nmp/nmp_decoder_hash.sv|rtl_nmp/nmp_axi_master.sv|rtl_nmp/nmp_alu.sv|rtl_nmp/nmp_address_lookup_table.sv|rtl_nmp/nmp_addr_gen.sv|
 Z8 !s90 -work|work|rtl_nmp/nmp_addr_gen.sv|rtl_nmp/nmp_address_lookup_table.sv|rtl_nmp/nmp_alu.sv|rtl_nmp/nmp_axi_master.sv|rtl_nmp/nmp_decoder_hash.sv|rtl_nmp/nmp_fsm_hash.sv|rtl_nmp/nmp_hash_addr_decoder.sv|rtl_nmp/nmp_hash_generator.sv|rtl_nmp/nmp_top_hash.sv|
 !i113 1
@@ -46,7 +46,7 @@ R0
 w1759765587
 8rtl_nmp/nmp_address_lookup_table.sv
 Frtl_nmp/nmp_address_lookup_table.sv
-!i122 15
+!i122 28
 L0 9 65
 R5
 r1
@@ -55,6 +55,31 @@ r1
 R6
 R7
 R8
+!i113 1
+R9
+R10
+vnmp_address_lookup_table_compressed
+R1
+Z11 !s110 1759813892
+!i10b 1
+!s100 2;RRSZWS?MlYP<Mk9NUzA1
+R3
+IJmT6l7D1aeG=DFG>l??TJ0
+R4
+S1
+R0
+w1759813827
+8rtl_nmp/nmp_address_lookup_table_compressed.sv
+Frtl_nmp/nmp_address_lookup_table_compressed.sv
+!i122 21
+L0 16 120
+R5
+r1
+!s85 0
+31
+Z12 !s108 1759813892.000000
+!s107 rtl_nmp/nmp_address_lookup_table_compressed.sv|
+!s90 -work|work|rtl_nmp/nmp_address_lookup_table_compressed.sv|
 !i113 1
 R9
 R10
@@ -71,7 +96,7 @@ R0
 w1758120249
 8rtl_nmp/nmp_alu.sv
 Frtl_nmp/nmp_alu.sv
-!i122 15
+!i122 28
 L0 7 40
 R5
 r1
@@ -96,7 +121,7 @@ R0
 w1758183678
 8rtl_nmp/nmp_axi_master.sv
 Frtl_nmp/nmp_axi_master.sv
-!i122 15
+!i122 28
 L0 7 257
 R5
 r1
@@ -110,7 +135,7 @@ R9
 R10
 vnmp_decoder
 R1
-Z11 !s110 1759769419
+Z13 !s110 1759769419
 !i10b 1
 !s100 _Z3>g<X`V::EczCmb9jz[0
 R3
@@ -127,9 +152,9 @@ R5
 r1
 !s85 0
 31
-Z12 !s108 1759769419.000000
-Z13 !s107 tests_nmp/tb_final_working.sv|rtl_nmp/nmp_top_hash.sv|rtl_nmp/nmp_top.sv|rtl_nmp/nmp_hash_generator.sv|rtl_nmp/nmp_hash_addr_decoder.sv|rtl_nmp/nmp_fsm_hash.sv|rtl_nmp/nmp_fsm.sv|rtl_nmp/nmp_decoder_hash.sv|rtl_nmp/nmp_decoder.sv|rtl_nmp/nmp_axi_master.sv|rtl_nmp/nmp_alu.sv|rtl_nmp/nmp_address_lookup_table.sv|rtl_nmp/nmp_addr_gen.sv|
-Z14 !s90 -work|work|rtl_nmp/nmp_addr_gen.sv|rtl_nmp/nmp_address_lookup_table.sv|rtl_nmp/nmp_alu.sv|rtl_nmp/nmp_axi_master.sv|rtl_nmp/nmp_decoder.sv|rtl_nmp/nmp_decoder_hash.sv|rtl_nmp/nmp_fsm.sv|rtl_nmp/nmp_fsm_hash.sv|rtl_nmp/nmp_hash_addr_decoder.sv|rtl_nmp/nmp_hash_generator.sv|rtl_nmp/nmp_top.sv|rtl_nmp/nmp_top_hash.sv|tests_nmp/tb_final_working.sv|
+Z14 !s108 1759769419.000000
+Z15 !s107 tests_nmp/tb_final_working.sv|rtl_nmp/nmp_top_hash.sv|rtl_nmp/nmp_top.sv|rtl_nmp/nmp_hash_generator.sv|rtl_nmp/nmp_hash_addr_decoder.sv|rtl_nmp/nmp_fsm_hash.sv|rtl_nmp/nmp_fsm.sv|rtl_nmp/nmp_decoder_hash.sv|rtl_nmp/nmp_decoder.sv|rtl_nmp/nmp_axi_master.sv|rtl_nmp/nmp_alu.sv|rtl_nmp/nmp_address_lookup_table.sv|rtl_nmp/nmp_addr_gen.sv|
+Z16 !s90 -work|work|rtl_nmp/nmp_addr_gen.sv|rtl_nmp/nmp_address_lookup_table.sv|rtl_nmp/nmp_alu.sv|rtl_nmp/nmp_axi_master.sv|rtl_nmp/nmp_decoder.sv|rtl_nmp/nmp_decoder_hash.sv|rtl_nmp/nmp_fsm.sv|rtl_nmp/nmp_fsm_hash.sv|rtl_nmp/nmp_hash_addr_decoder.sv|rtl_nmp/nmp_hash_generator.sv|rtl_nmp/nmp_top.sv|rtl_nmp/nmp_top_hash.sv|tests_nmp/tb_final_working.sv|
 !i113 1
 R9
 R10
@@ -146,7 +171,7 @@ R0
 w1759765623
 8rtl_nmp/nmp_decoder_hash.sv
 Frtl_nmp/nmp_decoder_hash.sv
-!i122 15
+!i122 28
 L0 12 47
 R5
 r1
@@ -160,7 +185,7 @@ R9
 R10
 vnmp_fsm
 R1
-R11
+R13
 !i10b 1
 !s100 oPhKmGe`MB<A^>kjaMn:70
 R3
@@ -177,9 +202,9 @@ R5
 r1
 !s85 0
 31
-R12
-R13
 R14
+R15
+R16
 !i113 1
 R9
 R10
@@ -196,7 +221,7 @@ R0
 w1759766885
 8rtl_nmp/nmp_fsm_hash.sv
 Frtl_nmp/nmp_fsm_hash.sv
-!i122 15
+!i122 28
 L0 8 189
 R5
 r1
@@ -221,7 +246,7 @@ R0
 w1759765643
 8rtl_nmp/nmp_hash_addr_decoder.sv
 Frtl_nmp/nmp_hash_addr_decoder.sv
-!i122 15
+!i122 28
 L0 8 112
 R5
 r1
@@ -246,7 +271,7 @@ R0
 w1759765602
 8rtl_nmp/nmp_hash_generator.sv
 Frtl_nmp/nmp_hash_generator.sv
-!i122 15
+!i122 28
 L0 11 30
 R5
 r1
@@ -260,7 +285,7 @@ R9
 R10
 vnmp_top
 R1
-R11
+R13
 !i10b 1
 !s100 _;NcR145NoFkN^4ljBS=C1
 R3
@@ -277,9 +302,9 @@ R5
 r1
 !s85 0
 31
-R12
-R13
 R14
+R15
+R16
 !i113 1
 R9
 R10
@@ -296,7 +321,7 @@ R0
 w1759765721
 8rtl_nmp/nmp_top_hash.sv
 Frtl_nmp/nmp_top_hash.sv
-!i122 15
+!i122 28
 L0 10 352
 R5
 r1
@@ -443,10 +468,10 @@ IQ876;2^EU2B5[LIb`ALDL1
 R4
 S1
 R0
-w1759769407
+w1759900120
 8tests_nmp/tb_final_working.sv
 Ftests_nmp/tb_final_working.sv
-!i122 16
+!i122 29
 L0 3 241
 R5
 r1
@@ -530,6 +555,31 @@ r1
 !s108 1759768451.000000
 !s107 tests_nmp/tb_multi_test.sv|rtl_nmp/nmp_top_hash.sv|rtl_nmp/nmp_top.sv|rtl_nmp/nmp_hash_generator.sv|rtl_nmp/nmp_hash_addr_decoder.sv|rtl_nmp/nmp_fsm_hash.sv|rtl_nmp/nmp_fsm.sv|rtl_nmp/nmp_decoder_hash.sv|rtl_nmp/nmp_decoder.sv|rtl_nmp/nmp_axi_master.sv|rtl_nmp/nmp_alu.sv|rtl_nmp/nmp_address_lookup_table.sv|rtl_nmp/nmp_addr_gen.sv|
 !s90 -work|work|rtl_nmp/nmp_addr_gen.sv|rtl_nmp/nmp_address_lookup_table.sv|rtl_nmp/nmp_alu.sv|rtl_nmp/nmp_axi_master.sv|rtl_nmp/nmp_decoder.sv|rtl_nmp/nmp_decoder_hash.sv|rtl_nmp/nmp_fsm.sv|rtl_nmp/nmp_fsm_hash.sv|rtl_nmp/nmp_hash_addr_decoder.sv|rtl_nmp/nmp_hash_generator.sv|rtl_nmp/nmp_top.sv|rtl_nmp/nmp_top_hash.sv|tests_nmp/tb_multi_test.sv|
+!i113 1
+R9
+R10
+vtb_nmp_alt_compressed
+R1
+R11
+!i10b 1
+!s100 nN3gKlL@LS1AUZTPO;=Ld0
+R3
+I4a]K2nlDKKQB:EJ1DK:7N1
+R4
+S1
+R0
+w1759813884
+8tests_nmp/tb_nmp_alt_compressed.sv
+Ftests_nmp/tb_nmp_alt_compressed.sv
+!i122 22
+L0 11 288
+R5
+r1
+!s85 0
+31
+R12
+!s107 tests_nmp/tb_nmp_alt_compressed.sv|
+!s90 -work|work|tests_nmp/tb_nmp_alt_compressed.sv|
 !i113 1
 R9
 R10

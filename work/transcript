@@ -1,68 +1,8 @@
-# vsim -c -work work tb_quick_test -do "run -all; quit" 
-# Start time: 21:43:45 on Oct 06,2025
-# Loading sv_std.std
-# Loading work.tb_quick_test
-# Loading work.nmp_top_hash
-# Loading work.nmp_decoder_hash
-# Loading work.nmp_fsm_hash
-# Loading work.nmp_address_lookup_table
-# Loading work.nmp_hash_addr_decoder
-# Loading work.nmp_addr_gen
-# Loading work.nmp_alu
-# Loading work.nmp_axi_master
-# run -all
-# Waiting... 100 cycles, state=3
-# Waiting... 200 cycles, state=3
-# Waiting... 300 cycles, state=3
-# Waiting... 400 cycles, state=3
-# Waiting... 500 cycles, state=3
-# Waiting... 600 cycles, state=3
-# Waiting... 700 cycles, state=3
-# Waiting... 800 cycles, state=3
-# Waiting... 900 cycles, state=3
-# Waiting... 1000 cycles, state=3
-# Waiting... 1100 cycles, state=3
-# Waiting... 1200 cycles, state=3
-# Waiting... 1300 cycles, state=3
-# Waiting... 1400 cycles, state=3
-# Waiting... 1500 cycles, state=3
-# Waiting... 1600 cycles, state=3
-# Waiting... 1700 cycles, state=3
-# Waiting... 1800 cycles, state=3
-# Waiting... 1900 cycles, state=3
-# Waiting... 2000 cycles, state=3
-# Waiting... 2100 cycles, state=3
-# Waiting... 2200 cycles, state=3
-# Waiting... 2300 cycles, state=3
-# Waiting... 2400 cycles, state=3
-# Waiting... 2500 cycles, state=3
-# Waiting... 2600 cycles, state=3
-# Waiting... 2700 cycles, state=3
-# Waiting... 2800 cycles, state=3
-# Waiting... 2900 cycles, state=3
-# Waiting... 3000 cycles, state=3
-# Waiting... 3100 cycles, state=3
-# Waiting... 3200 cycles, state=3
-# Waiting... 3300 cycles, state=3
-# Waiting... 3400 cycles, state=3
-# Waiting... 3500 cycles, state=3
-# Waiting... 3600 cycles, state=3
-# Waiting... 3700 cycles, state=3
-# Waiting... 3800 cycles, state=3
-# Waiting... 3900 cycles, state=3
-# Waiting... 4000 cycles, state=3
-# Waiting... 4100 cycles, state=3
-# Waiting... 4200 cycles, state=3
-# Waiting... 4300 cycles, state=3
-# Waiting... 4400 cycles, state=3
-# Waiting... 4500 cycles, state=3
-# Waiting... 4600 cycles, state=3
-# Waiting... 4700 cycles, state=3
-# Waiting... 4800 cycles, state=3
-# Waiting... 4900 cycles, state=3
-# Waiting... 5000 cycles, state=3
-# ✗ FAIL: Timeout at state 3
-# ** Note: $finish    : /home/rohan/major_project/pulpino_workspace/pulpino/rtl/nmp_working/tests_nmp/tb_quick_test.sv(101)
-#    Time: 50155 ns  Iteration: 1  Instance: /tb_quick_test
-# End time: 21:43:48 on Oct 06,2025, Elapsed time: 0:00:03
-# Errors: 0, Warnings: 0
+# vsim -c tb_nmp_alt_compressed -do "run -all; quit" 
+# Start time: 10:39:45 on Oct 07,2025
+# ** Error: (vsim-3170) Could not find 'tb_nmp_alt_compressed'.
+#         Searched libraries:
+#             /home/rohan/major_project/pulpino_workspace/pulpino/rtl/nmp_working/work/work
+# Error loading design
+# End time: 10:39:48 on Oct 07,2025, Elapsed time: 0:00:03
+# Errors: 1, Warnings: 0
