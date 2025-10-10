@@ -1,0 +1,8 @@
+# vsim -c tb_nmp_alt_compressed -do "run -all; quit" 
+# Start time: 10:39:45 on Oct 07,2025
+# ** Error: (vsim-3170) Could not find 'tb_nmp_alt_compressed'.
+#         Searched libraries:
+#             /home/rohan/major_project/pulpino_workspace/pulpino/rtl/nmp_working/work/work
+# Error loading design
+# End time: 10:39:48 on Oct 07,2025, Elapsed time: 0:00:03
+# Errors: 1, Warnings: 0

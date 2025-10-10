@@ -1,0 +1,191 @@
+#  vcd add -r /*
+#  run -all
+#     
+#     # Additional performance queries (if signals are available)
+#     # These would need to be adapted based to your specific RTL signals
+#     echo "=== ADDITIONAL PERFORMANCE METRICS ==="
+#     echo "Clock Frequency: 100MHz (10ns period)"
+#     echo "Simulation Timestamp: Mon Sep 22 15:16:45 IST 2025"
+#     
+#     quit -sim
+#     exit
+# 
+# 
+# ==== NMP Enhanced Performance Test ====
+# 
+# Time 5000: NMP State changed from 0 to x
+# Time 15000: NMP State changed from x to 0
+# Sending instruction: 0x61400033 at time 30000
+# Time 35000: Instruction valid, current_state = 0
+# Instruction sent, waiting for response...
+# DEBUG: is_nmp_add = 1
+# DEBUG: current_state = 1
+# DEBUG: addr_load_counter = 0
+# Time 45000: NMP State changed from 0 to 1
+# Time 145000: NMP State changed from 1 to 2
+# Time 155000: NMP State changed from 2 to 3
+# Time 195000: NMP State changed from 3 to 4
+# Time 205000: Writing data 0x00000011 to address 0x00107000
+# Time 225000: NMP State changed from 4 to 2
+# Time 235000: NMP State changed from 2 to 3
+# Time 275000: NMP State changed from 3 to 4
+# Time 285000: Writing data 0x00000014 to address 0x00107004
+# Time 305000: NMP State changed from 4 to 2
+# Time 315000: NMP State changed from 2 to 3
+# Time 355000: NMP State changed from 3 to 4
+# Time 365000: Writing data 0x00000017 to address 0x00107008
+# Time 385000: NMP State changed from 4 to 2
+# Time 395000: NMP State changed from 2 to 3
+# Time 435000: NMP State changed from 3 to 4
+# Time 445000: Writing data 0x0000001a to address 0x0010700c
+# Time 465000: NMP State changed from 4 to 2
+# Time 475000: NMP State changed from 2 to 3
+# Time 515000: NMP State changed from 3 to 4
+# Time 525000: Writing data 0x0000001d to address 0x00107010
+# Time 545000: NMP State changed from 4 to 2
+# Time 555000: NMP State changed from 2 to 3
+# Time 595000: NMP State changed from 3 to 4
+# Time 605000: Writing data 0x00000020 to address 0x00107014
+# Time 625000: NMP State changed from 4 to 2
+# Time 635000: NMP State changed from 2 to 3
+# Time 675000: NMP State changed from 3 to 4
+# Time 685000: Writing data 0x00000023 to address 0x00107018
+# Time 705000: NMP State changed from 4 to 2
+# Time 715000: NMP State changed from 2 to 3
+# Time 755000: NMP State changed from 3 to 4
+# Time 765000: Writing data 0x00000026 to address 0x0010701c
+# Time 785000: NMP State changed from 4 to 2
+# Time 795000: NMP State changed from 2 to 3
+# Time 835000: NMP State changed from 3 to 4
+# Time 845000: Writing data 0x00000032 to address 0x00107020
+# Time 865000: NMP State changed from 4 to 2
+# Time 875000: NMP State changed from 2 to 3
+# Time 915000: NMP State changed from 3 to 4
+# Time 925000: Writing data 0x00000034 to address 0x00107024
+# Time 945000: NMP State changed from 4 to 2
+# Time 955000: NMP State changed from 2 to 3
+# Time 995000: NMP State changed from 3 to 4
+# Time 1005000: Writing data 0x00000036 to address 0x00107028
+# Time 1025000: NMP State changed from 4 to 2
+# Time 1035000: NMP State changed from 2 to 3
+# Time 1075000: NMP State changed from 3 to 4
+# Time 1085000: Writing data 0x00000038 to address 0x0010702c
+# Time 1105000: NMP State changed from 4 to 2
+# Time 1115000: NMP State changed from 2 to 3
+# Time 1155000: NMP State changed from 3 to 4
+# Time 1165000: Writing data 0x00000011 to address 0x00107030
+# Time 1185000: NMP State changed from 4 to 2
+# Time 1195000: NMP State changed from 2 to 3
+# Time 1235000: NMP State changed from 3 to 4
+# Time 1245000: Writing data 0x00000014 to address 0x00107034
+# Time 1265000: NMP State changed from 4 to 2
+# Time 1275000: NMP State changed from 2 to 3
+# Time 1315000: NMP State changed from 3 to 4
+# Time 1325000: Writing data 0x00000017 to address 0x00107038
+# Time 1345000: NMP State changed from 4 to 2
+# Time 1355000: NMP State changed from 2 to 3
+# Time 1395000: NMP State changed from 3 to 4
+# Time 1405000: Writing data 0x0000001a to address 0x0010703c
+# Time 1425000: NMP State changed from 4 to 2
+# Time 1435000: NMP State changed from 2 to 3
+# Time 1475000: NMP State changed from 3 to 4
+# Time 1485000: Writing data 0x00000019 to address 0x00107040
+# Time 1505000: NMP State changed from 4 to 2
+# Time 1515000: NMP State changed from 2 to 3
+# Time 1555000: NMP State changed from 3 to 4
+# Time 1565000: Writing data 0x0000001c to address 0x00107044
+# Time 1585000: NMP State changed from 4 to 2
+# Time 1595000: NMP State changed from 2 to 3
+# Time 1635000: NMP State changed from 3 to 4
+# Time 1645000: Writing data 0x0000001f to address 0x00107048
+# Time 1665000: NMP State changed from 4 to 2
+# Time 1675000: NMP State changed from 2 to 3
+# Time 1715000: NMP State changed from 3 to 4
+# Time 1725000: Writing data 0x00000022 to address 0x0010704c
+# Time 1745000: NMP State changed from 4 to 5
+# Time 1755000: NMP State changed from 5 to 0
+# inter_flag received
+# 
+# 
+# +================================================================+
+# |                    NMP PERFORMANCE REPORT                     |
+# +================================================================+
+# | TIMING METRICS:                                               |
+# |   Total Simulation Cycles    :        176                     |
+# |   Active NMP Cycles          :        171                     |
+# |   Idle Cycles                :          0                     |
+# |   Execution Time             :    1720.00 ns                |
+# +================================================================+
+# | THROUGHPUT METRICS:                                           |
+# |   Instructions Per Cycle (IPC)     :   0.0057                |
+# |   Operations Per Cycle              :   0.1136                |
+# |   Average Cycles Per Operation      :     8.55                |
+# |   Execution Efficiency              :    97.16%               |
+# +================================================================+
+# | MEMORY METRICS:                                               |
+# |   Total Memory Reads         :         44                     |
+# |   Total Memory Writes        :         20                     |
+# |   Total AXI Transactions     :         64                     |
+# |   Memory Bandwidth Util.     :    36.36%                  |
+# +================================================================+
+# | OPERATION METRICS:                                            |
+# |   Total Instructions         :          1                     |
+# |   ALU Operations             :         20                     |
+# |   State Transitions          :         65                     |
+# |   Data Elements Processed    :         20                     |
+# +================================================================+
+# 
+# NMP OUTPUT ARRAYS:
+# ==================
+# [0] Address: 0x00107000, Data: 0x00000011 (0x01 + 0x10 = 0x11)
+# [1] Address: 0x00107004, Data: 0x00000014 (0x03 + 0x11 = 0x14)
+# [2] Address: 0x00107008, Data: 0x00000017 (0x05 + 0x12 = 0x17)
+# [3] Address: 0x0010700c, Data: 0x0000001a (0x07 + 0x13 = 0x1a)
+# [4] Address: 0x00107010, Data: 0x0000001d (0x09 + 0x14 = 0x1d)
+# [5] Address: 0x00107014, Data: 0x00000020 (0x0b + 0x15 = 0x20)
+# [6] Address: 0x00107018, Data: 0x00000023 (0x0d + 0x16 = 0x23)
+# [7] Address: 0x0010701c, Data: 0x00000026 (0x0f + 0x17 = 0x26)
+# [8] Address: 0x00107020, Data: 0x00000032 (0x11 + 0x21 = 0x32)
+# [9] Address: 0x00107024, Data: 0x00000034 (0x12 + 0x22 = 0x34)
+# [10] Address: 0x00107028, Data: 0x00000036 (0x13 + 0x23 = 0x36)
+# [11] Address: 0x0010702c, Data: 0x00000038 (0x14 + 0x24 = 0x38)
+# [12] Address: 0x00107030, Data: 0x00000011 (0x01 + 0x10 = 0x11)
+# [13] Address: 0x00107034, Data: 0x00000014 (0x03 + 0x11 = 0x14)
+# [14] Address: 0x00107038, Data: 0x00000017 (0x05 + 0x12 = 0x17)
+# [15] Address: 0x0010703c, Data: 0x0000001a (0x07 + 0x13 = 0x1a)
+# [16] Address: 0x00107040, Data: 0x00000019 (0x09 + 0x10 = 0x19)
+# [17] Address: 0x00107044, Data: 0x0000001c (0x0b + 0x11 = 0x1c)
+# [18] Address: 0x00107048, Data: 0x0000001f (0x0d + 0x12 = 0x1f)
+# [19] Address: 0x0010704c, Data: 0x00000022 (0x0f + 0x13 = 0x22)
+# 
+# EXPECTED vs ACTUAL:
+# ===================
+# [0] PASS: Expected=0x11, Got=0x11
+# [1] PASS: Expected=0x14, Got=0x14
+# [2] PASS: Expected=0x17, Got=0x17
+# [3] PASS: Expected=0x1a, Got=0x1a
+# [4] PASS: Expected=0x1d, Got=0x1d
+# [5] PASS: Expected=0x20, Got=0x20
+# [6] PASS: Expected=0x23, Got=0x23
+# [7] PASS: Expected=0x26, Got=0x26
+# [8] PASS: Expected=0x32, Got=0x32
+# [9] PASS: Expected=0x34, Got=0x34
+# [10] PASS: Expected=0x36, Got=0x36
+# [11] PASS: Expected=0x38, Got=0x38
+# [12] PASS: Expected=0x11, Got=0x11
+# [13] PASS: Expected=0x14, Got=0x14
+# [14] PASS: Expected=0x17, Got=0x17
+# [15] PASS: Expected=0x1a, Got=0x1a
+# [16] PASS: Expected=0x19, Got=0x19
+# [17] PASS: Expected=0x1c, Got=0x1c
+# [18] PASS: Expected=0x1f, Got=0x1f
+# [19] PASS: Expected=0x22, Got=0x22
+# 
+# ==================
+# TEST COMPLETE
+# ==================
+# 
+# ** Note: $finish    : tests_nmp/nmp_proof_enhanced.sv(303)
+#    Time: 1765 ns  Iteration: 0  Instance: /nmp_proof
+# End time: 15:16:48 on Sep 22,2025, Elapsed time: 0:00:03
+# Errors: 0, Warnings: 0
