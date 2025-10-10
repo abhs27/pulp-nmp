@@ -1,5 +1,5 @@
-# vsim -c -do "vcd file simulations/sim_20251008_155935/nmp_test_20251008_155935.vcd; vcd add -r /*; run -all; quit -f" work.tb_final_working 
-# Start time: 15:59:37 on Oct 08,2025
+# vsim -c -do "vcd file simulations/sim_20251008_155447/nmp_test_20251008_155447.vcd; vcd add -r /*; run -all; quit -f" work.tb_final_working 
+# Start time: 15:54:48 on Oct 08,2025
 # Loading sv_std.std
 # Loading work.tb_final_working
 # Loading work.nmp_top_hash
@@ -10,7 +10,7 @@
 # Loading work.nmp_addr_gen
 # Loading work.nmp_alu
 # Loading work.nmp_axi_master
-# vcd file simulations/sim_20251008_155935/nmp_test_20251008_155935.vcd
+# vcd file simulations/sim_20251008_155447/nmp_test_20251008_155447.vcd
 #  vcd add -r /*
 #  run -all
 # 
@@ -50,5 +50,5 @@
 # 
 # ** Note: $finish    : tests_nmp/tb_final_working.sv(240)
 #    Time: 12825 ns  Iteration: 1  Instance: /tb_final_working
-# End time: 15:59:46 on Oct 08,2025, Elapsed time: 0:00:09
+# End time: 15:54:58 on Oct 08,2025, Elapsed time: 0:00:10
 # Errors: 0, Warnings: 0
