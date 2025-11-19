@@ -43,12 +43,13 @@ module nmp_address_lookup_table (
     integer i;
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            // Clear valid entries bitmap
+            // Clear valid entries bitmap and a portion of the table on reset
             valid_entries <= {131072{1'b0}};
-            read_valid <= 1'b0;
-            read_rs1_base <= 32'h0;
-            read_rs2_base <= 32'h0;
-            read_rd_base  <= 32'h0;
+            for (i = 0; i < 16; i = i + 1) begin // Initialize a small part for simulation
+                alt_rs1_base[i] <= 32'h0;
+                alt_rs2_base[i] <= 32'h0;
+                alt_rd_base[i]  <= 32'h0;
+            end
         end else begin
             // Write operation
             if (write_enable) begin
@@ -57,15 +58,26 @@ module nmp_address_lookup_table (
                 alt_rd_base[write_hash_index]  <= write_rd_base;
                 valid_entries[write_hash_index] <= 1'b1;
             end
-            
-            // Read operation
+        end
+    end
+
+    // Read Logic (registered output)
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            read_rs1_base <= 32'h0;
+            read_rs2_base <= 32'h0;
+            read_rd_base  <= 32'h0;
+            read_valid    <= 1'b0;
+        end else begin
+            // By default, de-assert read_valid unless a read is successful in the previous cycle
+             read_valid <= 1'b0;
+
             if (read_enable) begin
+                // On a read request, fetch the data and validity
                 read_rs1_base <= alt_rs1_base[read_hash_index];
                 read_rs2_base <= alt_rs2_base[read_hash_index];
                 read_rd_base  <= alt_rd_base[read_hash_index];
                 read_valid    <= valid_entries[read_hash_index];
-            end else begin
-                read_valid <= 1'b0;
             end
         end
     end

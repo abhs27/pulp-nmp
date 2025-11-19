@@ -10,7 +10,7 @@ module nmp_axi_master (
     input  wire        rst_n,
     
     // Control Interface
-    input  wire [2:0]  current_state,
+    input  wire [3:0]  current_state,
     input  wire        start_addr_load,
     input  wire        start_element_read,
     input  wire        start_element_write,
@@ -71,12 +71,15 @@ module nmp_axi_master (
 );
 
     // FSM States (local copy for reference)
-    localparam [2:0] IDLE           = 3'b000;
-    localparam [2:0] LOAD_ADDRESSES = 3'b001;
-    localparam [2:0] EXECUTE_INIT   = 3'b010;
-    localparam [2:0] EXECUTE_READ   = 3'b011;
-    localparam [2:0] EXECUTE_WRITE  = 3'b100;
-    localparam [2:0] DONE           = 3'b101;
+    localparam [3:0] IDLE           = 4'b0000;
+    localparam [3:0] LOAD_ADDRESSES = 4'b0001;
+    localparam [3:0] HASH_LOOKUP    = 4'b0010;  // NEW: Hash lookup state
+    localparam [3:0] EXECUTE_INIT   = 4'b0011;
+    localparam [3:0] EXECUTE_READ   = 4'b0100;
+    localparam [3:0] EXECUTE_COMPUTE_WAIT= 4'b0101;
+    localparam [3:0] EXECUTE_WRITE  = 4'b0110;
+    localparam [3:0] DONE           = 4'b0111;
+    localparam [3:0] ERROR          = 4'b1000; 
     
     // Error codes
     localparam [1:0] NO_ERROR      = 2'b00;
@@ -141,6 +144,8 @@ module nmp_axi_master (
                 IDLE: begin
                     rs1_read_done <= 1'b0;
                 end
+
+                default : rs1_read_done <= 0;
             endcase
         end
     end
@@ -183,6 +188,8 @@ module nmp_axi_master (
                 IDLE: begin
                     rs2_read_done <= 1'b0;
                 end
+
+                default : rs2_read_done <= 0;
             endcase
         end
     end
@@ -243,6 +250,8 @@ module nmp_axi_master (
                 IDLE: begin
                     write_done <= 1'b0;
                 end
+
+                default : write_done <= 0;
             endcase
         end
     end

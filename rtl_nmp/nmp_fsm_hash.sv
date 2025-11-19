@@ -11,7 +11,7 @@ module nmp_fsm_hash (
     input  wire        rst_n,
     
     // Control Inputs
-    input  wire        is_nmp_add,
+    input  wire        nmp_valid_start,           // NEW: Support for SUB operation
     input  wire        use_hash_mode,       // NEW: Use hash-based addressing
     input  wire [4:0]  array_size,
     input  wire [1:0]  addr_load_counter,
@@ -22,10 +22,15 @@ module nmp_fsm_hash (
     input  wire        hash_addr_valid,     // NEW: Hash lookup complete
     input  wire        hash_addr_not_found, // NEW: Hash not found error
     
+    input  wire [2:0]  funct3,
+    input  wire        op_done,
+    
     // Status Outputs
     output reg         nmp_active,
     output reg         inter_flag,
-    output wire [2:0]  current_state,
+    output wire [3:0]  current_state,
+
+    output reg         start_op,
     
     // Control Outputs
     output reg         start_addr_load,
@@ -38,21 +43,22 @@ module nmp_fsm_hash (
 );
 
     // FSM States
-    localparam [2:0] IDLE           = 3'b000;
-    localparam [2:0] LOAD_ADDRESSES = 3'b001;
-    localparam [2:0] HASH_LOOKUP    = 3'b110;  // NEW: Hash lookup state
-    localparam [2:0] EXECUTE_INIT   = 3'b010;
-    localparam [2:0] EXECUTE_READ   = 3'b011;
-    localparam [2:0] EXECUTE_WRITE  = 3'b100;
-    localparam [2:0] DONE           = 3'b101;
-    localparam [2:0] ERROR          = 3'b111;  // NEW: Error state
+    localparam [3:0] IDLE           = 4'b0000;
+    localparam [3:0] LOAD_ADDRESSES = 4'b0001;
+    localparam [3:0] HASH_LOOKUP    = 4'b0010;  // NEW: Hash lookup state
+    localparam [3:0] EXECUTE_INIT   = 4'b0011;
+    localparam [3:0] EXECUTE_READ   = 4'b0100;
+    localparam [3:0] EXECUTE_COMPUTE_WAIT= 4'b0101;
+    localparam [3:0] EXECUTE_WRITE  = 4'b0110;
+    localparam [3:0] DONE           = 4'b0111;
+    localparam [3:0] ERROR          = 4'b1000;  // NEW: Error state
     
     // State registers
-    reg [2:0] state, next_state;
+    reg [3:0] state, next_state;
     reg [4:0] stored_array_size;
     
     assign current_state = state;
-    
+
     // State register
     always @(posedge clk) begin
         if (!rst_n) begin
@@ -60,7 +66,7 @@ module nmp_fsm_hash (
             stored_array_size <= 5'h0;
         end else begin
             state <= next_state;
-            if (state == IDLE && is_nmp_add) begin
+            if (state == IDLE && nmp_valid_start) begin
                 stored_array_size <= array_size;
             end
         end
@@ -72,7 +78,7 @@ module nmp_fsm_hash (
         
         case (state)
             IDLE: begin
-                if (is_nmp_add) begin
+                if (nmp_valid_start) begin
                     if (use_hash_mode) begin
                         next_state = HASH_LOOKUP;  // Skip to hash lookup
                     end else begin
@@ -101,6 +107,12 @@ module nmp_fsm_hash (
             
             EXECUTE_READ: begin
                 if (rs1_read_done && rs2_read_done) begin
+                    next_state = EXECUTE_COMPUTE_WAIT;
+                end
+            end
+
+            EXECUTE_COMPUTE_WAIT: begin
+                if (op_done) begin
                     next_state = EXECUTE_WRITE;
                 end
             end
@@ -141,6 +153,7 @@ module nmp_fsm_hash (
             increment_element <= 1'b0;
             operation_complete <= 1'b0;
             hash_error <= 1'b0;
+            start_op <= 1'b0;
         end else begin
             // Default values for control signals
             start_addr_load <= 1'b0;
@@ -149,10 +162,11 @@ module nmp_fsm_hash (
             start_element_write <= 1'b0;
             increment_element <= 1'b0;
             operation_complete <= 1'b0;
-            
+            start_op <= 1'b0;
+
             case (state)
                 IDLE: begin
-                    if (is_nmp_add) begin
+                    if (nmp_valid_start) begin
                         nmp_active <= 1'b1;
                         inter_flag <= 1'b0;
                         hash_error <= 1'b0;
@@ -169,6 +183,9 @@ module nmp_fsm_hash (
                 
                 EXECUTE_READ: begin
                     start_element_read <= 1'b1;
+                    if(rs1_read_done && rs2_read_done) begin
+                        start_op <= 1'b1;
+                    end
                 end
                 
                 EXECUTE_WRITE: begin

@@ -1,0 +1,61 @@
+# vsim -c -do "vcd file simulations\sim_20251010_232924\nmp_test_20251010_232924.vcd; vcd add -r /*; run -all; quit -f" work.tb_final_working 
+# Start time: 23:29:26 on Oct 10,2025
+# Loading sv_std.std
+# Loading work.tb_final_working
+# Loading work.nmp_top_hash
+# Loading work.nmp_decoder_hash
+# Loading work.nmp_fsm_hash
+# Loading work.nmp_address_lookup_table
+# Loading work.nmp_hash_addr_decoder
+# Loading work.nmp_addr_gen
+# Loading work.nmp_alu
+# Loading work.nmp_axi_master
+# vcd file simulations\sim_20251010_232924\nmp_test_20251010_232924.vcd
+# ** Error: (vsim-7) Failed to open VCD file "simulationssim_20251010_232924
+# mp_test_20251010_232924.vcd" in write mode.
+# Invalid argument. (errno = EINVAL)
+#    Time: 0 ps  Iteration: 0  Instance: /tb_final_working/dut/u_axi_master
+#  vcd add -r /*
+# ** UI-Msg: (vsim-7) Failed to open VCD file "simulationssim_20251010_232924
+# mp_test_20251010_232924.vcd" in write mode.
+# Invalid argument. (errno = EINVAL)
+#  run -all
+# 
+# ========================================
+# === NMP COMPREHENSIVE TEST SUITE ===
+# ========================================
+# 
+# Array Sizes:
+#   ✓        1 element (size=1, cycles=15)
+#   ✓       2 elements (size=2, cycles=24)
+#   ✓       4 elements (size=4, cycles=42)
+#   ✓       8 elements (size=8, cycles=78)
+#   ✓      16 elements (size=16, cycles=150)
+#   ✓      31 elements (size=31, cycles=285)
+# 
+# Data Patterns:
+#   ✓        All zeros (size=4, cycles=42)
+#   ✓       Small nums (size=4, cycles=42)
+#   ✓       Large nums (size=4, cycles=42)
+#   ✓            Max+1 (size=2, cycles=24)
+# 
+# Odd Sizes:
+#   ✓       3 elements (size=3, cycles=33)
+#   ✓       5 elements (size=5, cycles=51)
+#   ✓       7 elements (size=7, cycles=69)
+#   ✓      15 elements (size=15, cycles=141)
+# 
+# ========================================
+# RESULTS:
+#   Total:  14 tests
+#   Passed: 14
+#   Failed: 0
+#   Rate:   100%
+# ========================================
+# 
+# 🎉 ALL TESTS PASSED! System fully verified.
+# 
+# ** Note: $finish    : tests_nmp/tb_final_working.sv(240)
+#    Time: 12825 ns  Iteration: 1  Instance: /tb_final_working
+# End time: 23:29:27 on Oct 10,2025, Elapsed time: 0:00:01
+# Errors: 1, Warnings: 0

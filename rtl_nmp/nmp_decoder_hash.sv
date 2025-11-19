@@ -16,7 +16,7 @@ module nmp_decoder_hash (
     input  wire        hash_mode_enable,    // NEW: Enable hash-based addressing
     
     // Outputs
-    output wire        is_nmp_add,
+    output wire        nmp_valid_start,           // NEW: Support for SUB operation
     output wire [4:0]  array_size,
     output wire [16:0] hash_index,          // NEW: 17-bit hash for ALT lookup
     output wire        use_hash_mode,       // NEW: Indicates hash mode is active
@@ -34,12 +34,13 @@ module nmp_decoder_hash (
     
     // Hash mode enable bit (bit 14) - can be used as mode selector
     // When bit[14] = 1, use hash mode; when 0, use legacy mode
-    wire hash_mode_bit;
-    assign hash_mode_bit = instruction[14];
-    
+    // wire hash_mode_bit;
+    // assign hash_mode_bit = instruction[14];
+    // currently using hash mode bit as third bit for funct3 to accomodate fft ops
+
     // Extract instruction fields
     assign opcode = instruction[6:0];
-    assign funct3 = instruction[13:12];  // Only 2 bits used, bit 14 is hash mode flag
+    assign funct3 = instruction[14:12];  // Only 2 bits used, bit 14 is hash mode flag
     assign array_size = instruction[11:7];  // Size field
     assign funct7 = instruction[31:25];     // Not used in hash mode
     
@@ -48,11 +49,26 @@ module nmp_decoder_hash (
     
     // Determine if hash mode should be used
     // Hash mode is active when: hash_mode_enable AND instruction bit[14] is set
-    assign use_hash_mode = hash_mode_enable && hash_mode_bit;
-    
+    assign use_hash_mode = hash_mode_enable;
+
+    wire is_nmp_add, is_nmp_sub, is_nmp_mul, is_nmp_div;
     // Decode NMP_ADD instruction
     assign is_nmp_add = instruction_valid && 
                        (opcode == OPCODE_NMP) && 
-                       (funct3[1:0] == 2'b00);  // Check only lower 2 bits for ADD
+                       (funct3[2:0] == FUNCT3_NMP_ADD);  // Check only lower 2 bits for ADD
+
+    assign is_nmp_sub = instruction_valid && 
+                       (opcode == OPCODE_NMP) && 
+                       (funct3[2:0] == FUNCT3_NMP_SUB);  // Check only lower 2 bits for ADD
+
+    assign is_nmp_mul = instruction_valid && 
+                       (opcode == OPCODE_NMP) && 
+                       (funct3[2:0] == FUNCT3_NMP_MUL);  // Check only lower 2 bits for MUL
+
+    assign is_nmp_div = instruction_valid && 
+                       (opcode == OPCODE_NMP) && 
+                       (funct3[2:0] == FUNCT3_NMP_DIV);  // Check only lower 2 bits for DIV
+
+    assign nmp_valid_start = is_nmp_add || is_nmp_sub || is_nmp_mul || is_nmp_div;
 
 endmodule

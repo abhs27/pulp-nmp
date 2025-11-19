@@ -70,7 +70,7 @@ module nmp_top_hash #(
     //-------------------------------------------------------------------------
     
     // Decoder outputs
-    wire        is_nmp_add;
+    wire        nmp_valid_start;
     wire [4:0]  array_size;
     wire [16:0] hash_index;
     wire        use_hash_mode;
@@ -79,13 +79,16 @@ module nmp_top_hash #(
     wire [6:0]  funct7;
     
     // FSM signals
-    wire [2:0]  current_state;
+    wire [3:0]  current_state;
     wire        start_addr_load;
     wire        start_hash_lookup;
     wire        start_element_read;
     wire        start_element_write;
     wire        increment_element;
     wire        operation_complete;
+
+    wire        start_op;
+    wire        op_done;
     
     // Address generation signals
     wire [31:0] base_ptr_addr;
@@ -176,14 +179,14 @@ module nmp_top_hash #(
             element_counter <= 5'h0;
         end else begin
             case (current_state)
-                3'b000: begin // IDLE
-                    if (is_nmp_add) begin
+                4'b0000: begin // IDLE
+                    if (nmp_valid_start) begin
                         addr_load_counter <= 2'h0;
                         element_counter <= 5'h0;
                     end
                 end
                 
-                3'b001: begin // LOAD_ADDRESSES
+                4'b0001: begin // LOAD_ADDRESSES
                     if (store_rs1_base || store_rs2_base || store_rd_base) begin
                         addr_load_counter <= addr_load_counter + 1;
                     end
@@ -208,7 +211,7 @@ module nmp_top_hash #(
         .instruction        (instruction),
         .instruction_valid  (instruction_valid),
         .hash_mode_enable   (HASH_MODE_ENABLE),
-        .is_nmp_add         (is_nmp_add),
+        .nmp_valid_start    (nmp_valid_start),
         .array_size         (array_size),
         .hash_index         (hash_index),
         .use_hash_mode      (use_hash_mode),
@@ -221,7 +224,7 @@ module nmp_top_hash #(
     nmp_fsm_hash u_fsm (
         .clk                  (clk),
         .rst_n                (rst_n),
-        .is_nmp_add           (is_nmp_add),
+        .nmp_valid_start    (nmp_valid_start),
         .use_hash_mode        (use_hash_mode),
         .array_size           (array_size),
         .addr_load_counter    (addr_load_counter),
@@ -240,7 +243,10 @@ module nmp_top_hash #(
         .start_element_write  (start_element_write),
         .increment_element    (increment_element),
         .operation_complete   (operation_complete),
-        .hash_error           (hash_error)
+        .hash_error           (hash_error),
+        .start_op             (start_op),
+        .op_done              (op_done),
+        .funct3               (funct3)
     );
     
     // Address Lookup Table
@@ -300,9 +306,13 @@ module nmp_top_hash #(
     
     // ALU
     nmp_alu u_alu (
+        .clk       (clk),
+        .rst_n     (rst_n),
+        .start_op   (start_op),
         .operand_a (rs1_data),
         .operand_b (rs2_data),
-        .operation (3'b000),
+        .operation (funct3),
+        .op_done   (op_done),
         .result    (alu_result),
         .overflow  (alu_overflow),
         .zero      (alu_zero)
